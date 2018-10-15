@@ -32,5 +32,5 @@ listEqual (x:xs) (y:ys) = if x ==y then listEqual xs ys else False
 evens :: [Integer] -> [Integer]
 evens x = filter even x
 
-toUpper ::Char -> Char
-toUpper x = map toUpperStr x
+toUpperStr ::[Char] -> [Char]
+toUpperStr x = map toUpper x
