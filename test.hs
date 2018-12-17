@@ -1,3 +1,4 @@
+
 fand True True = True
 fand _ _ = False
 
@@ -28,9 +29,6 @@ helper :: (Ord a) => [a] -> [a] -> Integer -> [Integer]
 helper _ [] _ = []
 helper a (x:xs) y = if x == maximum a then (helper a xs (y+1)) ++ [y] else helper a xs (y+1) 
 
-
-
-
 rleDecode :: [(Int, Char)] -> String
 rleDecode [] = ""
 rleDecode (x:xs) = (write (fst x) (snd x))  ++ rleDecode xs
@@ -55,3 +53,29 @@ increasingSubseq (x:xs) = x : increasingSubseq (filter (>x) xs)
 raiseWith :: Ord a => (a -> a) -> [a] -> [a]
 --raiseWith f [] = []
 raiseWith f x = map (\y -> if (f y) > y then f y else y) x
+
+
+join :: Eq a => [(a, b)] -> [(a, c)] -> [(a, b, c)]
+join xs ys = [(a,b,c) | (a,b) <- xs, (x,c) <- ys, a == x]
+
+data BinTree a = Empty
+               | Node a (BinTree a) (BinTree a)
+               deriving (Show, Eq)
+data Direction = L | R
+               deriving (Show, Eq, Ord)
+
+myTree = Node "koren"
+              (Node "levy" Empty Empty)
+              (Node "vnitrni"
+                    (Node "stredni" Empty Empty)
+                    (Node "pravy" Empty Empty))
+
+findInTree :: BinTree a -> [Direction] -> Maybe a
+findInTree Empty _ = Nothing
+findInTree (Node a l r) [] = Just a
+findInTree (Node a l r) (x:xs) = if x == L then findInTree l xs else findInTree r xs 
+
+composeMaybe :: (a -> Maybe b) -> (c -> Maybe a) -> (c -> Maybe b)
+composeMaybe f g x = case g x of 
+       Nothing -> Nothing
+       Just y -> f y
